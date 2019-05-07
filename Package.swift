@@ -31,16 +31,23 @@ let package = Package(
         .package(url: "https://github.com/PerfectlySoft/Perfect-CRUD.git", from: "1.2.2")
     ],
     targets: [
-        .systemLibrary(name: "mariadbclient",
-            pkgConfig: "libmariadb",
-            providers: [
-                .apt(["libmariadb-client-lgpl-dev"]),
-                .brew(["mariadb-connector-c"])
-            ]
-        ),
+		.systemLibrary(name: "openssl",
+					   pkgConfig: "libssl",
+					   providers: [
+						.apt(["openssl"]),
+						.brew(["openssl"])
+			]
+		),
+		.systemLibrary(name: "mariadbclient",
+					   pkgConfig: "libmariadb",
+					   providers: [
+						.apt(["libmariadb-client-lgpl-dev"]),
+						.brew(["mariadb-connector-c"])
+			]
+		),
         .target(
             name: "MariaDB",
-            dependencies: ["mariadbclient", "PerfectCRUD"]),
+            dependencies: ["mariadbclient", "openssl", "PerfectCRUD"]),
         .testTarget(
             name: "MariaDBTests",
             dependencies: ["MariaDB"]),
